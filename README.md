@@ -10,4 +10,4 @@ This contains a spring boot project depicting various features in Spring Boot li
 7. Monitoring
 8. Spring Security
 9. Spring Data JPA
-10. 
+10. Validation and Error handling 
