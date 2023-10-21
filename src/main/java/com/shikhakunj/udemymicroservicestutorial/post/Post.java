@@ -3,8 +3,10 @@ package com.shikhakunj.udemymicroservicestutorial.post;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -14,7 +16,8 @@ import com.shikhakunj.udemymicroservicestutorial.user.User;
 public class Post {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_seq")
+	@SequenceGenerator(name = "post_seq",allocationSize = 1)
 	private int post_id;
 	
 	@Size(min=10)

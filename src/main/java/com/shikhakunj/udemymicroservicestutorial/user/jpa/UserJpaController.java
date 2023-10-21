@@ -74,6 +74,10 @@ public class UserJpaController {
 	
 	@DeleteMapping("/jpa/users/{id}")
 	public void deleteUserById(@PathVariable int id) {
+		Optional<User> user = userRepo.findById(id);
+		if(user.isEmpty()){
+			throw new UserNotFoundException("id: "+id);
+		}
 		userRepo.deleteById(id);
 	}
 	
