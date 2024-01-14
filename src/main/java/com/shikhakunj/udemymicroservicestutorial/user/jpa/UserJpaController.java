@@ -27,6 +27,7 @@ import com.shikhakunj.udemymicroservicestutorial.post.PostRepository;
 import com.shikhakunj.udemymicroservicestutorial.user.User;
 import com.shikhakunj.udemymicroservicestutorial.user.UserDaoService;
 import com.shikhakunj.udemymicroservicestutorial.user.UserNotFoundException;
+import com.shikhakunj.udemymicroservicestutorial.user.aop.LogExecutionTime;
 
 @RestController
 public class UserJpaController {
@@ -41,6 +42,7 @@ public class UserJpaController {
 	PostRepository postRepo;
 	
 	@GetMapping("/jpa/users")
+	@LogExecutionTime(additionalMessage = "get all users")
 	public List<User> getAllUsers() {
 		return userRepo.findAll();
 	}
@@ -48,6 +50,7 @@ public class UserJpaController {
 	
 	// for hateoas - EntityModel and WebMvcLink
 	@GetMapping("/jpa/users/{id}")
+	@LogExecutionTime(additionalMessage = "get a user by id")
 	public EntityModel<User> getUserById(@PathVariable int id) {
 		
 		Optional<User> user = userRepo.findById(id);
@@ -62,6 +65,7 @@ public class UserJpaController {
 	}
 	
 	@PostMapping("/jpa/users")
+	@LogExecutionTime(additionalMessage = "save a user")
 	public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
 		User savedUser = userRepo.save(user);
 		
@@ -73,6 +77,7 @@ public class UserJpaController {
 	}
 	
 	@DeleteMapping("/jpa/users/{id}")
+	@LogExecutionTime(additionalMessage = "delete a user by id")
 	public void deleteUserById(@PathVariable int id) {
 		Optional<User> user = userRepo.findById(id);
 		if(user.isEmpty()){
@@ -82,6 +87,7 @@ public class UserJpaController {
 	}
 	
 	@GetMapping("/jpa/users/{id}/posts")
+	@LogExecutionTime(additionalMessage = "get posts for a user")
 	public List<Post> retrievePostsForAUser(@PathVariable int id) {
 		Optional<User> user = userRepo.findById(id);
 		if(user.isEmpty()) {
@@ -91,6 +97,7 @@ public class UserJpaController {
 	}
 	
 	@PostMapping("/jpa/users/{id}/posts")
+	@LogExecutionTime(additionalMessage = "save post for a user")
 	public ResponseEntity<Post> createPostsForAUser(@PathVariable int id, @Valid @RequestBody Post post) {
 		Optional<User> user = userRepo.findById(id);
 		if(user.isEmpty()) {
@@ -107,6 +114,7 @@ public class UserJpaController {
 	}
 	
 	@GetMapping("/jpa/users/{id}/posts/{post_id}")
+	@LogExecutionTime(additionalMessage = "get a post for a user")
 	public EntityModel<Post> getPostsForAUserById(@PathVariable int id, @PathVariable int post_id) throws Exception{
 		Optional<User> user = userRepo.findById(id);
 		if(user.isEmpty()) {
