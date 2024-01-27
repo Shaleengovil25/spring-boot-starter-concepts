@@ -12,3 +12,4 @@ This contains a spring boot project depicting various features in Spring Boot li
 9. Spring Data JPA
 10. Validation and Error handling 
 11. Spring aop logs
+12. Spring data jpa auditing

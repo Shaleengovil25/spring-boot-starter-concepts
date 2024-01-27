@@ -11,9 +11,10 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.shikhakunj.udemymicroservicestutorial.user.User;
+import com.shikhakunj.udemymicroservicestutorial.user.audit.AuditLog;
 
 @Entity
-public class Post {
+public class Post extends AuditLog{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_seq")
