@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -85,6 +86,19 @@ public class UserJpaController {
 		}
 		userRepo.deleteById(id);
 	}
+
+
+	@PutMapping("/jpa/users/{id}")
+	@LogExecutionTime(additionalMessage = "update a user by id")
+	public void updateUserById(@PathVariable int id, @RequestBody User body) {
+		Optional<User> user = userRepo.findById(id);
+		if(user.isEmpty()){
+			throw new UserNotFoundException("id: "+id);
+		}
+		body.setId(id);
+		userRepo.save(body);
+	}
+
 	
 	@GetMapping("/jpa/users/{id}/posts")
 	@LogExecutionTime(additionalMessage = "get posts for a user")
@@ -132,6 +146,20 @@ public class UserJpaController {
 			return entityModel;
 		}
 		
+	}
+	
+	@DeleteMapping("/jpa/users/{id}/posts/{post_id}")
+	@LogExecutionTime(additionalMessage = "delete a post by id")
+	public void deletePostById(@PathVariable int id, @PathVariable int post_id) {
+		Optional<User> user = userRepo.findById(id);
+		if(user.isEmpty()){
+			throw new UserNotFoundException("id: "+id);
+		}
+		Optional<Post> post = postRepo.findById(post_id);
+		if(post.isEmpty()){
+			throw new UserNotFoundException("id: "+post_id);
+		}
+		postRepo.deleteById(post_id);
 	}
 
 }
