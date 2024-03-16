@@ -35,7 +35,7 @@ public class MonitorMail {
 		try {
 			Session session = Session.getDefaultInstance(System.getProperties());
 			Store store = session.getStore("imaps");
-			store.connect("smtp.gmail.com", "dummyuser427@gmail.com", "euiqylcecnvbbefq");
+			store.connect("smtp.gmail.com", "dummyuser427@gmail.com", "euiqylcecnvb****");
 
 			Folder inbox = store.getFolder("INBOX");
 			inbox.open(Folder.READ_WRITE);
