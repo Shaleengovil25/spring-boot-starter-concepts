@@ -1,15 +1,25 @@
 package com.shaleen.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.shaleen.entity.User;
+import com.shaleen.model.Alert;
+import com.shaleen.repo.UserRepo;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class PageController {
+	
+	@Autowired
+	UserRepo userRepo;
 	
 	@RequestMapping("/")
 	public String index() {
@@ -56,14 +66,34 @@ public class PageController {
 		return "signup";
 	}
 	
-	@PostMapping("/do-register")
-	public String doRegister(@ModelAttribute User user) {
-		System.out.println("do-register handler called");
-		System.out.println(user.getName());
-		System.out.println(user.getEmailId());
-		System.out.println(user.getAbout());
-		System.out.println(user.getPassword());
-		System.out.println(user.getPhoneNumber());
+	@RequestMapping(value = "/do-register", method = RequestMethod.POST)
+	public String doRegister(@Valid @ModelAttribute User user, BindingResult rBindingResult, HttpSession session) {
+		System.out.println("do-register called");
+		if(rBindingResult.hasErrors()) {
+			System.out.println("error present");
+			return "signup";
+		}
+		
+		Alert alert = new Alert();
+		try {
+//			User user = new User();
+//			user.setName(userForm.getName());
+//			user.setEmailId(userForm.getEmailId());
+//			user.setPhoneNumber(userForm.getPhoneNumber());
+//			user.setPassword(userForm.getPassword());
+//			user.setAbout(userForm.getAbout());
+			
+			userRepo.save(user);
+			alert.setContent("User registeration is successfull !");
+			alert.setType("SUCCESS");
+			
+		}
+		catch(Exception e) {
+			alert.setContent("User registeration is failed, please try again");
+			alert.setType("FAILURE");
+		}
+		
+		session.setAttribute("message", alert);
 		return "redirect:/signup";
 	}
 
