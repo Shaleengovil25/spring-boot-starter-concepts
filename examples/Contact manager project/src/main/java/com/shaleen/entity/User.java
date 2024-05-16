@@ -1,14 +1,20 @@
 package com.shaleen.entity;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.List;import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.shaleen.helper.Providers;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -21,6 +27,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,7 +39,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User implements UserDetails{
 	
 	@Id
 	@GeneratedValue(generator = "user_id")
@@ -50,6 +57,7 @@ public class User {
 	@Column(unique = true, nullable = false)
 	private String emailId;
 	
+	@Getter(AccessLevel.NONE)
 	@Size(min=6,message = "Minimum 6 characters are required")
 	@NotBlank(message = "Password is required")
 	private String password;
@@ -64,6 +72,7 @@ public class User {
 	@NotBlank(message = "Phone Number is required")
 	private String phoneNumber;
 	
+	@Getter(AccessLevel.NONE)
 	private boolean enabled = false;
 	
 	private boolean emailVerified = false;
@@ -77,5 +86,51 @@ public class User {
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private List<Contact> contacts;
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	private List<String> roleList;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		Collection<SimpleGrantedAuthority> roles = roleList.stream().map(role->new SimpleGrantedAuthority(role)).collect(Collectors.toList());
+		return roles;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return this.emailId;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return this.password;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}
 
 }

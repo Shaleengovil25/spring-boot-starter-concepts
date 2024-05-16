@@ -1,6 +1,9 @@
 package com.shaleen.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +23,9 @@ public class PageController {
 	
 	@Autowired
 	UserRepo userRepo;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@RequestMapping("/")
 	public String index() {
@@ -69,7 +75,9 @@ public class PageController {
 	@RequestMapping(value = "/do-register", method = RequestMethod.POST)
 	public String doRegister(@Valid @ModelAttribute User user, BindingResult rBindingResult, HttpSession session) {
 		System.out.println("do-register called");
+		
 		if(rBindingResult.hasErrors()) {
+			// working only if this argument is after @Valid argument
 			System.out.println("error present");
 			return "signup";
 		}
@@ -82,7 +90,8 @@ public class PageController {
 //			user.setPhoneNumber(userForm.getPhoneNumber());
 //			user.setPassword(userForm.getPassword());
 //			user.setAbout(userForm.getAbout());
-			
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			user.setRoleList(List.of("User","Approver"));
 			userRepo.save(user);
 			alert.setContent("User registeration is successfull !");
 			alert.setType("SUCCESS");
