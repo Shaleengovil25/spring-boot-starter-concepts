@@ -23,9 +23,11 @@
             </p>
 
             <div class="text-red-500 text-center" th:if="${param.error}">
-                Invalid username and password.</div>
+              Invalid username and password.
+            </div>
             <div class="text-green-500 text-center" th:if="${param.logout}">
-                You have been logged out!</div>
+              You have been logged out!
+            </div>
 
             <form
               class="max-w-sm mx-auto mt-5"
@@ -83,6 +85,22 @@
                 </button>
               </div>
             </form>
+
+            <div class="flex justify-center mt-5 mb-5 gap-2 items-center">
+              <div class="w-4/5 h-0.5 bg-blue-600 dark:bg-white"></div>
+              <div class=" text-blue-600 dark:text-white">OR</div>
+              <div class="w-4/5 h-0.5 bg-blue-600 dark:bg-white"></div>
+            </div>
+            <div class="button-container">
+              <a href="/oauth2/authorization/google" class="btn google">
+                <i class="fa-brands fa-google"></i>
+                <span>Sign in with Google</span>
+              </a>
+              <a href="/oauth2/authorization/github" class="btn github">
+                <i class="fa-brands fa-github"></i>
+                <span>Sign in with Github</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
