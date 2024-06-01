@@ -3,6 +3,8 @@ package com.shaleen.entity;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -35,5 +37,6 @@ public class SocialLink {
 	
 	@ManyToOne
 	@JoinColumn(name = "contact_id")
+	@JsonIgnore
 	private Contact contact;
 }

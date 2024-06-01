@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" data-th-replace="~{base::parent(~{::#content},  ~{::title}, ~{})}">
+<head>
+    <title data-th-text="${loggedInUser.name}+' | Dashboard'"></title>
+</head>
+<body>
+    <div id="content">
+        
+        <div data-th-replace="~{user/sidebar::sidebar}"></div>
+        <div class="sm:pl-64 sm:pt-[100px] lg:pt-[75px] flex items-center flex-col">
+            <h1 class="text-3xl">Welcome to dashboard page</h1>
+            <p data-th-text="${loggedInUser.emailId}"></p>
+        </div>
+    </div>
+
+</body>
+</html>

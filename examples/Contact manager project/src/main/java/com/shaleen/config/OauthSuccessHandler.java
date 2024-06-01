@@ -61,7 +61,7 @@ public class OauthSuccessHandler implements AuthenticationSuccessHandler {
 
 		}
 		
-		new DefaultRedirectStrategy().sendRedirect(request, response, "/user");
+		new DefaultRedirectStrategy().sendRedirect(request, response, "/user/profile");
 
 	}
 

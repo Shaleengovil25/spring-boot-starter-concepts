@@ -2,6 +2,8 @@ package com.shaleen.controller;
 
 import java.util.List;
 
+import javax.sound.midi.SysexMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.shaleen.entity.User;
 import com.shaleen.model.Alert;
+import com.shaleen.model.UserForm;
 import com.shaleen.repo.UserRepo;
 
 import jakarta.servlet.http.HttpSession;
@@ -79,6 +82,7 @@ public class PageController {
 		if(rBindingResult.hasErrors()) {
 			// working only if this argument is after @Valid argument
 			System.out.println("error present");
+//			System.out.println(rBindingResult.getAllErrors().toString());
 			return "signup";
 		}
 		
@@ -95,7 +99,6 @@ public class PageController {
 			userRepo.save(user);
 			alert.setContent("User registeration is successfull !");
 			alert.setType("SUCCESS");
-			
 		}
 		catch(Exception e) {
 			alert.setContent("User registeration is failed, please try again");

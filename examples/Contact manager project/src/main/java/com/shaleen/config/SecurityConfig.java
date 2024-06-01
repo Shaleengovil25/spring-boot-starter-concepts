@@ -56,7 +56,7 @@ public class SecurityConfig {
 			
 			loginform.loginPage("/login");
 			loginform.loginProcessingUrl("/authenticate");
-			loginform.successForwardUrl("/user/dashboard");
+			loginform.successForwardUrl("/user/profile");
 //			loginform.failureForwardUrl("/login?error=true");
 			
 			loginform.usernameParameter("email");

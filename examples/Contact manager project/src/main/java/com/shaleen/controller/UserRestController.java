@@ -14,7 +14,7 @@ import com.shaleen.repo.LinkRepo;
 import com.shaleen.repo.UserRepo;
 
 @RestController
-public class UserController {
+public class UserRestController {
 	
 	@Autowired
 	UserRepo userRepo;
