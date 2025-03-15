@@ -1,1 +1,0 @@
-This is Spring Boot Project with focus on Thymleaf, Tailwind CSS and Flowbite.
